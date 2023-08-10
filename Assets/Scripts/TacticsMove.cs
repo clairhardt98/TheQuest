@@ -9,6 +9,7 @@ public class TacticsMove : MonoBehaviour
 
     Stack<Tile> path = new Stack<Tile>();
     Tile currentTile;
+    public Tile actualTargetTile;
 
     public bool moving = false;
     //탐지범위
@@ -31,7 +32,7 @@ public class TacticsMove : MonoBehaviour
     {
         //현재 타일을 얻어내서 Current를 true로
         currentTile = GetTargetTile(gameObject);
-        currentTile.Current = true;
+        currentTile.current = true;
     }
     public Tile GetTargetTile(GameObject _target)
     {
@@ -47,20 +48,18 @@ public class TacticsMove : MonoBehaviour
         return tile;
     }
 
-    public void ComputeAdjacencyList()
+    public void ComputeAdjacencyList(Tile target)
     {
-        //tiles = GameObject.FindGameObjectsWithTag("Tile");
-
         foreach (GameObject tile in tiles)
         {
             Tile t = tile.GetComponent<Tile>();
-            t.FindNeighbors();
+            t.FindNeighbors(target);
         }
     }
 
     public void FindSelectableTiles()
     {
-        ComputeAdjacencyList();
+        ComputeAdjacencyList(null);
         GetCurrentTile();
 
         //bfs
@@ -68,34 +67,34 @@ public class TacticsMove : MonoBehaviour
 
         process.Enqueue(currentTile);
         currentTile.visited = true;
-        //currentTile.Parent = 
 
         while(process.Count>0)
         {
             Tile t = process.Dequeue();
             selectableTiles.Add(t);
-            t.Selectable = true;
+            t.selectable = true;
 
-            if(t.Distance < move)
+            if(t.distance < move)
             {
                 foreach (Tile tile in t.adjacencyList)
                 {
                     if (!tile.visited)
                     {
-                        tile.Parent = t;
+                        tile.parent = t;
                         tile.visited = true;
-                        tile.Distance = 1 + t.Distance;
+                        tile.distance = 1 + t.distance;
                         process.Enqueue(tile);
                     }
                 }
             }
         }
+        //Debug.Log(selectableTiles.Count);
     }
 
     public void MoveToTile(Tile tile)
     {
         path.Clear();
-        tile.Target = true;
+        tile.target = true;
         moving = true;
 
         Tile next = tile;
@@ -103,7 +102,7 @@ public class TacticsMove : MonoBehaviour
         {
             //스택에 경로를 입력
             path.Push(next);
-            next = next.Parent;
+            next = next.parent;
         }
     }
 
@@ -117,7 +116,6 @@ public class TacticsMove : MonoBehaviour
 
             //Calculate the unit's position on top of the target tile
             target.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y;
-
             if(Vector3.Distance(transform.position,target)>=0.05f)
             {
                 CalculateHeading(target);
@@ -145,7 +143,7 @@ public class TacticsMove : MonoBehaviour
     {
         if(currentTile != null)
         {
-            currentTile.Current = false;
+            currentTile.current = false;
             currentTile = null;
         }
 
@@ -166,5 +164,106 @@ public class TacticsMove : MonoBehaviour
     void SetHorizontalVelocity()
     {
         velocity = heading * moveSpeed;
+    }
+
+    protected Tile FindLowestF(List<Tile> list)
+    {
+        Tile lowest = list[0];
+
+        foreach(Tile t in list)
+        {
+            if (t.f < lowest.f)
+                lowest = t;
+        }
+        list.Remove(lowest);
+        return lowest;
+    }
+
+    protected Tile FindEndTile(Tile t)
+    {
+        Stack<Tile> tempPath = new Stack<Tile>();
+
+        //경로 생성
+        Tile next = t.parent;
+        while(next!=null)
+        {
+            tempPath.Push(next);
+            next = next.parent;
+            Debug.Log("generating path");
+        }
+        //움직일 수 있는 거리보다 경로 길이가 더 짧다면
+        if(tempPath.Count<=move)
+        {
+            return t.parent;
+        }
+        Tile endTile = null;
+        //더 길다면 그만큼 pop해서 이동
+        for(int i = 0; i<=move;i++)
+        {
+            endTile = tempPath.Pop();
+        }
+        return endTile;
+    }
+    protected void FindPath(Tile target)
+    {
+        //타겟 주변의 인접 리스트를 갱신
+        ComputeAdjacencyList(target);
+        //현재 타일 갱신
+        GetCurrentTile();
+
+        //A*
+        List<Tile> openList = new List<Tile>();
+        List<Tile> closedList = new List<Tile>();
+
+        openList.Add(currentTile);
+        currentTile.h = Vector3.Distance(currentTile.transform.position, target.transform.position);
+        currentTile.f = currentTile.h;
+        while(openList.Count>0)
+        {
+            //pq에서 가장 작은 f뽑기
+            Tile t = FindLowestF(openList);
+            closedList.Add(t);
+
+            if(t == target)
+            {
+                //target을 찾음
+                actualTargetTile = FindEndTile(t);
+                MoveToTile(actualTargetTile);
+                return;
+            }
+            foreach (Tile tile in t.adjacencyList)
+            {
+                //인접 노드에 대해서
+                if(closedList.Contains(tile))
+                {
+                    //아무것도 하지 않는다
+                }
+                else if(openList.Contains(tile))
+                {
+                    //openlist에 있을 때
+                    float tempG = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
+                    if(tempG < tile.g)
+                    {
+                        tile.parent = t;
+                        tile.g = tempG;
+                        tile.f = tile.g + tile.h;
+                        openList.Add(tile);
+                    }
+                }
+                else
+                {
+                    //Debug.Log("1");
+                    tile.parent = t;
+
+                    tile.g = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
+                    tile.h = Vector3.Distance(tile.transform.position, target.transform.position);
+                    tile.f = tile.g + tile.h;
+
+                    openList.Add(tile);
+                }
+            }
+        }
+        //target까지 path가 없다면?
+        Debug.Log("Path not Found");
     }
 }

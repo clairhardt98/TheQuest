@@ -5,18 +5,23 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     //타일의 속성
-    public bool Walkable = true;
-    public bool Current = false;
-    public bool Target = false;
-    public bool Selectable = false;
+    public bool walkable = true;
+    public bool current = false;
+    public bool target = false;
+    public bool selectable = false;
 
     //인접 타일의 리스트
     public List<Tile> adjacencyList = new List<Tile>();
 
     //bfs 속성
     public bool visited = false;
-    public Tile Parent = null;
-    public int Distance = 0;
+    public Tile parent = null;
+    public int distance = 0;
+
+    //a* 속성
+    public float f = 0;
+    public float g = 0;
+    public float h = 0;
 
     void Start()
     {
@@ -25,15 +30,15 @@ public class Tile : MonoBehaviour
 
     void Update()
     {
-        if (Current)
+        if (current)
         {
             GetComponent<Renderer>().material.color = Color.magenta;
         }
-        else if (Target)
+        else if (target)
         {
             GetComponent<Renderer>().material.color = Color.green;
         }
-        else if (Selectable)
+        else if (selectable)
         {
             GetComponent<Renderer>().material.color = Color.red;
         }
@@ -47,25 +52,25 @@ public class Tile : MonoBehaviour
     {
         adjacencyList.Clear();
 
-        Current = false;
-        Target = false;
-        Selectable = false;
+        current = false;
+        target = false;
+        selectable = false;
 
         visited = false;
-        Parent = null;
-        Distance = 0;
+        parent = null;
+        distance = 0;
     }
-    public void FindNeighbors()
+    public void FindNeighbors(Tile target)
     {
         Reset();
 
-        CheckTile(Vector3.forward);
-        CheckTile(-Vector3.forward);
-        CheckTile(Vector3.right);
-        CheckTile(-Vector3.right);
+        CheckTile(Vector3.forward, target);
+        CheckTile(-Vector3.forward, target);
+        CheckTile(Vector3.right, target);
+        CheckTile(-Vector3.right, target);
     }
 
-    public void CheckTile(Vector3 _direction)
+    public void CheckTile(Vector3 _direction, Tile target)
     {
         Vector3 halfExtents = new Vector3(0.25f,0, 0.25f);
         Collider[] colliders = Physics.OverlapBox(transform.position + _direction, halfExtents);
@@ -73,11 +78,11 @@ public class Tile : MonoBehaviour
         foreach (Collider item in colliders)
         {
             Tile tile = item.GetComponent<Tile>();
-            if (tile != null && tile.Walkable)
+            if (tile != null && tile.walkable)
             {
                 RaycastHit hit;
                 //위쪽 방향으로 오브젝트가 없다면 인접 리스트에 입력
-                if (!Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1))
+                if (!Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1) || (item == target))
                 {
                     adjacencyList.Add(tile);
                 }

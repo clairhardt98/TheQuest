@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameCenter : MonoBehaviour
 {
@@ -9,6 +10,16 @@ public class GameCenter : MonoBehaviour
     MapData mapData;
     State state;
     int curStage;
+    [SerializeField]
+    private GameObject Player;
+    [SerializeField]
+    private GameObject Enemy;
+    //private List<GameObject> EnemyList;
+    [SerializeField]
+    private Button ButtonTurnEnd;
+
+    int playerMoveCnt;
+    int playerAttackCnt;
 
     
     // Start is called before the first frame update
@@ -20,6 +31,9 @@ public class GameCenter : MonoBehaviour
         curStage = 1;
         state = State.START;
         Debug.Log("state : START");
+        playerMoveCnt = 2;
+        playerAttackCnt = 1;
+
         EventManager.instance.OnEventTriggered += HandleEvent;
     }
     private void OnDisable()
@@ -36,14 +50,14 @@ public class GameCenter : MonoBehaviour
                 InitStage();
                 break;
             case State.PLAYERTURN:
-                
-                 StartCoroutine(PlayerTurn());
+                Player.GetComponent<PlayerMove>().turn = true;
+                StartCoroutine(PlayerTurn());
                 
                 //플레이어 턴 코루틴
                 break;
             case State.ENEMYTURN:
-                
-                 StartCoroutine(EnemyTurn());
+                //Debug.Log("Enemy Turn");
+                StartCoroutine(EnemyTurn());
                 
                 //적 턴 코루틴
                 break;
@@ -72,10 +86,9 @@ public class GameCenter : MonoBehaviour
     }
     IEnumerator PlayerTurn()
     {
-        int moveCnt = 2;
-        int attackCnt = 1;
-        //Debug.Log("Now in Player's Turn");
-
+        
+        //Debug.Log(playerMoveCnt);
+        
         //조이스틱 움직임에 따라 플레이어 이동
         //플레이어 공격
         yield return null;
@@ -85,11 +98,16 @@ public class GameCenter : MonoBehaviour
     {
         //플레이어 턴 종료 시 호출
         state = State.ENEMYTURN;
+        ButtonTurnEnd.GetComponent<Button>().interactable = false;
+        Player.GetComponent<PlayerMove>().turn = false;
+        Enemy.GetComponent<EnemyMove>().turn = true;
     }
     IEnumerator EnemyTurn()
     {
+        
         //적 하나마다 길 찾기, 이동
         //적 하나마다 공격
+        //Debug.Log("state : ENEMYTURN");
         yield return null;
     }
 
@@ -97,6 +115,7 @@ public class GameCenter : MonoBehaviour
     {
         //적 턴 종료 시 호출
         state = State.PLAYERTURN;
+        ButtonTurnEnd.GetComponent<Button>().interactable = true;
     }
     void StageClear()
     {
@@ -106,26 +125,36 @@ public class GameCenter : MonoBehaviour
     }
     public void TurnEndButtonClick()
     {
-        state = State.ENEMYTURN;
+        PlayerTurnEnd();
     }
     private void HandleEvent(EventType eventType)
     {
-        if (eventType == EventType.UIJoystickUp)
+        if(state == State.PLAYERTURN && playerMoveCnt>0)
         {
-            Debug.Log("Up");
-        }
-        else if (eventType == EventType.UIJoystickDown)
-        {
-            Debug.Log("Down");
-        }
-        else if (eventType == EventType.UIJoystickLeft)
-        {
-            Debug.Log("Left");
-        }
-        else if (eventType == EventType.UIJoystickRight)
-        {
-            Debug.Log("Right");
+            if (eventType == EventType.UIJoystickUp)
+            {
+                Debug.Log("Up");
+                if (Player.GetComponent<PlayerMove>().CheckCanMove(Vector3.forward))
+                    playerMoveCnt--;
+            }
+            else if (eventType == EventType.UIJoystickDown)
+            {
+                Debug.Log("Down");
+                if (Player.GetComponent<PlayerMove>().CheckCanMove(-Vector3.forward))
+                    playerMoveCnt--;
+            }
+            else if (eventType == EventType.UIJoystickLeft)
+            {
+                Debug.Log("Left");
+                if (Player.GetComponent<PlayerMove>().CheckCanMove(-Vector3.right))
+                    playerMoveCnt--;
+            }
+            else if (eventType == EventType.UIJoystickRight)
+            {
+                Debug.Log("Right");
+                if (Player.GetComponent<PlayerMove>().CheckCanMove(Vector3.right))
+                    playerMoveCnt--;
+            }
         }
     }
-
 }

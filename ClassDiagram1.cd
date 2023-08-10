@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MapData">
+    <Position X="10.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\DataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataManager">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAACAQAACAAAACAAAQAQhAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\DataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventManager">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAABACAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\EventManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameCenter">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="GameCenter.State">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\GameCenter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAYAAQABACAAEAgAAAAQAAAAAgAABIANBAAAIRAgAQA=</HashCode>
+      <FileName>Assets\Scripts\GameCenter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Joystick" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAQACCAIAAEAAIBABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Joystick.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MenuScript">
+    <Position X="8.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MenuScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerMove" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAABCAAAAAAAAAAAAIAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\PlayerMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TacticsCamera">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\TacticsCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TacticsMove" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgAgAAgAEIAAAACACBACAAAAAhAAAAEAAQQCAACgAAA=</HashCode>
+      <FileName>Assets\Scripts\TacticsMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tile">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAQAAACDAABAAACACAQCAAAAgAAABAAAgCAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Tile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="EnemyInfo" Collapsed="true">
+    <Position X="8.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAIAEAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\DataManager.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ItemInfo" Collapsed="true">
+    <Position X="10.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAECAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\DataManager.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StageInfo" Collapsed="true">
+    <Position X="12.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAEAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\DataManager.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="EventType" Collapsed="true">
+    <Position X="14" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAACAAAAg=</HashCode>
+      <FileName>Assets\Scripts\EventManager.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

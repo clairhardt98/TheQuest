@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         #endregion
     }
-
+    
     public void TriggerEvent(EventType eventType)
     {
         OnEventTriggered?.Invoke(eventType);
