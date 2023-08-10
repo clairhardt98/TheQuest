@@ -247,7 +247,6 @@ public class TacticsMove : MonoBehaviour
                         tile.parent = t;
                         tile.g = tempG;
                         tile.f = tile.g + tile.h;
-                        openList.Add(tile);
                     }
                 }
                 else
