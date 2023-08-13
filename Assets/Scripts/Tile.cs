@@ -22,10 +22,8 @@ public class Tile : MonoBehaviour
     public float f = 0;
     public float g = 0;
     public float h = 0;
-
     void Start()
     {
-
     }
 
     void Update()
@@ -70,10 +68,10 @@ public class Tile : MonoBehaviour
         CheckTile(-Vector3.right, target);
     }
 
-    public void CheckTile(Vector3 _direction, Tile target)
+    public void CheckTile(Vector3 direction, Tile Target)
     {
         Vector3 halfExtents = new Vector3(0.25f,0, 0.25f);
-        Collider[] colliders = Physics.OverlapBox(transform.position + _direction, halfExtents);
+        Collider[] colliders = Physics.OverlapBox(transform.position + direction, halfExtents);
 
         foreach (Collider item in colliders)
         {
@@ -82,7 +80,7 @@ public class Tile : MonoBehaviour
             {
                 RaycastHit hit;
                 //위쪽 방향으로 오브젝트가 없다면 인접 리스트에 입력
-                if (!Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1) || (item == target))
+                if (!Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1) || (tile == Target))
                 {
                     adjacencyList.Add(tile);
                 }

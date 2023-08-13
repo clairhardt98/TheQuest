@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class TacticsMove : MonoBehaviour
@@ -136,6 +137,8 @@ public class TacticsMove : MonoBehaviour
             //패스가 없으면 selectableTiles를 remove
             RemoveSelectableTiles();
             moving = false;
+            if(this.CompareTag("Enemy"))
+                EventManager.instance.TriggerEvent(EventType.EnemyTurnEnd);
         }
     }
 

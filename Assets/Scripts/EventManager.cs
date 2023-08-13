@@ -34,5 +34,6 @@ public enum EventType
     UIJoystickUp,
     UIJoystickDown,
     UIJoystickLeft,
-    UIJoystickRight
+    UIJoystickRight,
+    EnemyTurnEnd,
 }

@@ -21,10 +21,10 @@ public class EnemyMove : TacticsMove
         }
         if (!moving)
         {
-            FindNearestTarget();
-            CalculatePath();
+            FindNearestTarget();//플레이어 찾기
+            CalculatePath();//경로 계산
             FindSelectableTiles();
-            actualTargetTile.target = true;
+            //actualTargetTile.target = true;
             //Debug.Log(selectableTiles.Count);
         }
         else
@@ -36,12 +36,14 @@ public class EnemyMove : TacticsMove
     {
         //플레이어를 타겟으로 해서 경로 탐색
         Tile targetTile = GetTargetTile(Target);
+        
         FindPath(targetTile);
     }
     void FindNearestTarget()
     {
         //플레이어 태그의 타겟을 찾는다
         Target = GameObject.FindGameObjectWithTag("Player");
+        Debug.Log("Found Player");
         //float distance = Vector3.Distance(transform.position, Target.transform.position);
     }
 }

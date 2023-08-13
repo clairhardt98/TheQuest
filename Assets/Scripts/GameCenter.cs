@@ -116,6 +116,10 @@ public class GameCenter : MonoBehaviour
         //적 턴 종료 시 호출
         state = State.PLAYERTURN;
         ButtonTurnEnd.GetComponent<Button>().interactable = true;
+        Player.GetComponent<PlayerMove>().turn = true;
+        playerMoveCnt = 2;
+        playerAttackCnt = 1;
+        Enemy.GetComponent<EnemyMove>().turn = false;
     }
     void StageClear()
     {
@@ -155,6 +159,11 @@ public class GameCenter : MonoBehaviour
                 if (Player.GetComponent<PlayerMove>().CheckCanMove(Vector3.right))
                     playerMoveCnt--;
             }
+        }
+        if (eventType == EventType.EnemyTurnEnd)
+        {
+            Debug.Log("Enemy Turn End");
+            EnemyTurnEnd();
         }
     }
 }
