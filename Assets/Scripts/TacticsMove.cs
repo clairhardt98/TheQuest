@@ -89,7 +89,6 @@ public class TacticsMove : MonoBehaviour
                 }
             }
         }
-        //Debug.Log(selectableTiles.Count);
     }
 
     public void MoveToTile(Tile tile)
@@ -192,7 +191,6 @@ public class TacticsMove : MonoBehaviour
         {
             tempPath.Push(next);
             next = next.parent;
-            Debug.Log("generating path");
         }
         //움직일 수 있는 거리보다 경로 길이가 더 짧다면
         if(tempPath.Count<=move)
@@ -254,7 +252,6 @@ public class TacticsMove : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("1");
                     tile.parent = t;
 
                     tile.g = t.g + Vector3.Distance(tile.transform.position, t.transform.position);

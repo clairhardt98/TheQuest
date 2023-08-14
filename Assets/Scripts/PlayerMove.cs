@@ -19,7 +19,6 @@ public class PlayerMove : TacticsMove
         if(!moving)
         {
             FindSelectableTiles();
-            //Debug.Log(selectableTiles.Count);
             //CheckMouse();
         }
         else
@@ -59,13 +58,11 @@ public class PlayerMove : TacticsMove
         Tile playerTile = GetTargetTile(this.gameObject);
         Vector3 halfExtents = new Vector3(0.25f, 0, 0.25f);
         Collider[] colliders = Physics.OverlapBox(playerTile.transform.position + dir, halfExtents);
-        //Debug.Log(colliders.Length);
         foreach (Collider item in colliders)
         {
             Tile tile = item.GetComponent<Tile>();
             if (tile != null && tile.walkable)
             {
-                Debug.Log(colliders.Length);
                 MoveToTile(tile);
                 return true;
             }

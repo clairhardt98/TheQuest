@@ -56,7 +56,6 @@ public class GameCenter : MonoBehaviour
                 //플레이어 턴 코루틴
                 break;
             case State.ENEMYTURN:
-                //Debug.Log("Enemy Turn");
                 StartCoroutine(EnemyTurn());
                 
                 //적 턴 코루틴
@@ -87,7 +86,6 @@ public class GameCenter : MonoBehaviour
     IEnumerator PlayerTurn()
     {
         
-        //Debug.Log(playerMoveCnt);
         
         //조이스틱 움직임에 따라 플레이어 이동
         //플레이어 공격
@@ -107,13 +105,13 @@ public class GameCenter : MonoBehaviour
         
         //적 하나마다 길 찾기, 이동
         //적 하나마다 공격
-        //Debug.Log("state : ENEMYTURN");
         yield return null;
     }
 
     void EnemyTurnEnd()
     {
         //적 턴 종료 시 호출
+        Debug.Log("State : PLAYERTURN");
         state = State.PLAYERTURN;
         ButtonTurnEnd.GetComponent<Button>().interactable = true;
         Player.GetComponent<PlayerMove>().turn = true;
@@ -137,32 +135,27 @@ public class GameCenter : MonoBehaviour
         {
             if (eventType == EventType.UIJoystickUp)
             {
-                Debug.Log("Up");
                 if (Player.GetComponent<PlayerMove>().CheckCanMove(Vector3.forward))
                     playerMoveCnt--;
             }
             else if (eventType == EventType.UIJoystickDown)
             {
-                Debug.Log("Down");
                 if (Player.GetComponent<PlayerMove>().CheckCanMove(-Vector3.forward))
                     playerMoveCnt--;
             }
             else if (eventType == EventType.UIJoystickLeft)
             {
-                Debug.Log("Left");
                 if (Player.GetComponent<PlayerMove>().CheckCanMove(-Vector3.right))
                     playerMoveCnt--;
             }
             else if (eventType == EventType.UIJoystickRight)
             {
-                Debug.Log("Right");
                 if (Player.GetComponent<PlayerMove>().CheckCanMove(Vector3.right))
                     playerMoveCnt--;
             }
         }
         if (eventType == EventType.EnemyTurnEnd)
         {
-            Debug.Log("Enemy Turn End");
             EnemyTurnEnd();
         }
     }
